@@ -381,46 +381,30 @@
     }
 
     async function loadGalleryImages() {
-      const container = document.getElementById('gallery-images');
-      if (!container) return;
+const container = document.getElementById('gallery-images');
 
-      const curatedFiles = [
-        'IMG_1351.jpeg',
-        'IMG_1352.jpeg',
-        'IMG_1353.jpeg',
-        'IMG_1354.jpeg',
-        'IMG_1356.jpeg',
-        'IMG_1357.jpeg',
-        'IMG_1358.jpeg',
-        'IMG_1359.jpeg',
-        'IMG_1360.jpeg',
-        'IMG_1361.jpeg',
-        'IMG_1362.jpeg',
-        'IMG_1363.jpeg',
-        'IMG_1364.jpeg'
-      ];
+const imageFiles = [
+'IMG_1351.jpeg',
+'IMG_1352.jpeg',
+'IMG_1353.jpeg',
+'IMG_1354.jpeg',
+'IMG_1356.jpeg',
+'IMG_1357.jpeg',
+'IMG_1358.jpeg',
+'IMG_1359.jpeg',
+'IMG_1360.jpeg',
+'IMG_1361.jpeg',
+'IMG_1362.jpeg',
+'IMG_1363.jpeg',
+'IMG_1364.jpeg'
+];
 
-      try {
-        const response = await fetch('images/');
-        const html = await response.text();
-        const discoveredFiles = Array.from(html.matchAll(/href="([^"]+)"/g))
-          .map(match => match[1])
-          .filter(path => /\.(jpe?g|png|gif|webp)$/i.test(path))
-          .map(path => path.replace(/^\/+/, ''))
-          .filter(file => !/brand-mark|favicon/i.test(file));
-
-        const imageFiles = [...new Set([...curatedFiles, ...discoveredFiles])].filter(file => file);
-
-        if (!imageFiles.length) {
-          container.innerHTML = '<div class="gallery-empty">Recent project photos will appear here soon.</div>';
-          return;
-        }
-
-        container.innerHTML = imageFiles.map(file => `
-          <article class="gallery-item gallery-photo" tabindex="0" role="button" data-src="images/${file}" data-alt="${file.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ')}">
-            <img src="images/${file}" alt="${file.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ')}">
-          </article>
-        `).join('');
+container.innerHTML = imageFiles.map(file => `
+<article class="gallery-item gallery-photo" tabindex="0">
+<img src="images/${file}" alt="${file}">
+</article>
+`).join('');
+}
 
         container.querySelectorAll('.gallery-photo').forEach(card => {
           card.addEventListener('click', () => openLightbox(card.dataset.src, card.dataset.alt));
