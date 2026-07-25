@@ -400,16 +400,10 @@
         'IMG_1364.jpeg'
       ];
 
-      try {
-        const response = await fetch('images/');
-        const html = await response.text();
-        const discoveredFiles = Array.from(html.matchAll(/href="([^"]+)"/g))
-          .map(match => match[1])
-          .filter(path => /\.(jpe?g|png|gif|webp)$/i.test(path))
-          .map(path => path.replace(/^\/+/, ''))
-          .filter(file => !/brand-mark|favicon/i.test(file));
+      
+        
 
-        const imageFiles = [...new Set([...curatedFiles, ...discoveredFiles])].filter(file => file);
+       const imageFiles = curatedFiles;
 
         if (!imageFiles.length) {
           container.innerHTML = '<div class="gallery-empty">Recent project photos will appear here soon.</div>';
